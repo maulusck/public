@@ -18,8 +18,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-#HISTSIZE=1000
-#HISTFILESIZE=2000
+HISTSIZE=1000
+HISTFILESIZE=2000
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -59,7 +59,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
-    PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]@\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
+    PS1="\[\033[0;34m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;34m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;34m\]\h'; else echo '\[\033[0;97m\]\u\[\033[01;33m\]@\[\033[01;34m\]\h'; fi)\[\033[0;34m\]]\342\224\200[\[\033[0;36m\]\w\[\033[0;34m\]]\n\[\033[0;34m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
 else
     PS1='┌──[\u@\h]─[\w]\n└──╼ \$ '
 fi
@@ -84,7 +84,7 @@ unset color_prompt force_color_prompt
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
 xterm*|rxvt*)
-    PS1="\[\033[0;31m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;31m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;96m\]\h'; else echo '\[\033[0;39m\]\u\[\033[01;33m\]@\[\033[01;96m\]\h'; fi)\[\033[0;31m\]]\342\224\200[\[\033[0;32m\]\w\[\033[0;31m\]]\n\[\033[0;31m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
+    PS1="\[\033[0;34m\]\342\224\214\342\224\200\$([[ \$? != 0 ]] && echo \"[\[\033[0;34m\]\342\234\227\[\033[0;37m\]]\342\224\200\")[$(if [[ ${EUID} == 0 ]]; then echo '\[\033[01;31m\]root\[\033[01;33m\]@\[\033[01;34m\]\h'; else echo '\[\033[0;97m\]\u\[\033[01;33m\]@\[\033[01;34m\]\h'; fi)\[\033[0;34m\]]\342\224\200[\[\033[0;36m\]\w\[\033[0;34m\]]\n\[\033[0;34m\]\342\224\224\342\224\200\342\224\200\342\225\274 \[\033[0m\]\[\e[01;33m\]\\$\[\e[0m\]"
     ;;
 *)
     ;;
@@ -131,32 +131,39 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# CUSTOM
+# CUSTOM ALIASES
 
-alias cd..='cd ..'
+alias rm='rm -i'
 alias ls..='ls ..'
+alias cd..='cd ..'
 alias cd-='cd -'
 alias q='exit'
 alias off='poweroff'
 alias cl='clear'
-alias cll='clear && ls'
-alias clll='clear && ls -l'
-alias clnf='clear && neofetch'
-alias aliases='nano /home/m4ulu5ck/.bashrc'
-alias mpv.='mpv .'
-alias amirror='scrcpy  --window-x 1024 --window-width 450 --window-height 1024 --shortcut-mod=rctrl --window-title=SCRCPY & exit'
-alias duck='firefox --search'
-alias cmus='cd ~/Music/ && cmus && cd -'
-alias qemu64='qemu-system-x86_64
-function loop () {
+alias aliases='nano ~/.bashrc'
+alias amirror='scrcpy  --window-height 760 --window-width 329 --window-x 1366 --window-title SCRCPY --shortcut-mod rctrl & exit'
+alias please='sudo'
+alias fucking='sudo'
+# source ssh aliases
+source ~/.ssh/aliases
+alias duck='firefox --search $1 & exit'
+alias parrot-upgrade='sudo parrot-upgrade'
+alias routine='sudo apt update && sudo apt full-upgrade && sudo apt autoremove && sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt autoclean && sudo apt clean'
+alias aptrm='sudo apt autoremove'
+alias openvpn-connect-home='sudo openvpn --config ~/.ovpn/home.ovpn'
+alias vpnbook='cd ~/.ovpn/vpnbook/ && printf "Password is: " && cat pw-vpnbook'
+alias cmus='cd ~/Music && cmus && cd -'
+alias change-dns-opendns='sudo cp -v /etc/resolv.conf.od /etc/resolv.conf && echo "New nameservers:" && cat /etc/resolv.conf | grep -w nameserver'
+alias change-dns-cloudflare='sudo cp -v /etc/resolv.conf.cf /etc/resolv.conf && echo "New nameservers:" && cat /etc/resolv.conf | grep -w nameserver'
+alias change-dns-pihole='sudo cp -v /etc/resolv.conf.ph /etc/resolv.conf && echo "New nameservers:" && cat /etc/resolv.conf | grep -w nameserver'
+alias timer='stopwatch & exit'
+alias qemu64='qemu-system-x86_64'
+alias ipa='ip a'
+alias ipr='ip r'
+# loop things
+function loop(){
 	while true; do ($2 && sleep $1 && clear) done
 }
 export -f loop
-
-
-# device specific
-
-# ParrotOS
-alias parrot-upgrade='sudo parrot-upgrade'
-alias routine='sudo apt update && sudo apt full-upgrade && sudo apt autoremove && sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y && sudo apt autoclean && sudo apt clean'
-alias vpnbook='cd ~/privacy/vpnbook/ && printf "Password is: " && cat pw-vpnbook.txt && printf "You may want to copy the following command:\nsudo openvpn --config VPN\n"'
+# services
+alias svall='sudo service --status-all'
